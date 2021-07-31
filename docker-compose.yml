@@ -1,0 +1,52 @@
+version: "3"
+ 
+networks:
+  gitea:
+    external: false
+ 
+services:
+  server:
+    image: kunde21/gitea-arm
+    container_name: gitea
+    environment:
+      - USER_UID=1001
+      - USER_GID=1001
+      - DB_TYPE=postgres
+      - DB_HOST=db:5432
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=gitea
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - /mnt/git/gitea_data:/data   
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "3022:22"
+    depends_on:
+      - db
+ 
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: gitea
+      POSTGRES_DB: gitea
+    networks:
+      - gitea
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+      - ./pgdata:/var/lib/postgresql/data
+      - ./postgres.conf:/etc/postgresql/postgresql.conf
+ 
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - gitea
+    ports:
+      - "8080:8080"
