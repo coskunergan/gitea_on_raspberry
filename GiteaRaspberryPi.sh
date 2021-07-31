@@ -21,6 +21,8 @@ sudo apt-get install libffi-dev libssl-dev
 sudo apt install python3-dev
 sudo apt-get install -y python3 python3-pip
 
+sudo pip3 install docker-compose
+
 #docker kurulduktan sonra docker image lerininin web üzerinden güncellenmesi ve bakımı ve performansı gözlemlemek için portainer kuruyoruz.(isteğe bağlıdır)
 sudo docker pull portainer/portainer-ce:linux-arm
 
@@ -79,7 +81,7 @@ sudo su - git
 chmod +x gitea  
 
 #bir dosya oluşturuyor ve içine giriyoruz.
-mkdir gitee
+mkdir gitea
 cd gitea
 
 #aşağıdaki kodu çalıştırınca karşımıza nano text editör yeni bir sayfa getirecek. buraya repo içindeki "docker-compose.yml" isimli dosyanın tamamını kopyalayıp yapıştırıyoruz.
